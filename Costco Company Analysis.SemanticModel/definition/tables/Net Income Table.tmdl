@@ -1,0 +1,37 @@
+table 'Net Income Table'
+	lineageTag: c6aa0481-72ba-420f-b8dc-4ade230c8390
+
+	column Year
+		formatString: 0
+		lineageTag: 36b0514f-ab4d-4036-8a11-55341d7bbc86
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: SimplifiedP&L[Year]
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Net Income'
+		formatString: 0
+		lineageTag: 989d60b3-26b3-4c5c-9a85-d1e3695cb641
+		summarizeBy: sum
+		isNameInferred
+		sourceColumn: [Net Income]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Net Income Table' = calculated
+		mode: import
+		source =
+				
+				SUMMARIZE(
+				    FILTER(
+				        'SimplifiedP&L',
+				        'SimplifiedP&L'[Category] = "Net Income"
+				    ),
+				    'SimplifiedP&L'[Year],
+				    "Net Income",
+				    SUM('SimplifiedP&L'[Amount]) * 1000000
+				)
+
+	annotation PBI_Id = 52e2eb7ae8c64fe2af00422cb384f3a4
+

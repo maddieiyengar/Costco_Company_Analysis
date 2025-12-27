@@ -1,0 +1,50 @@
+table SimplifiedP&L
+	lineageTag: f4686250-6e35-4a35-9a97-b77b690a2eee
+
+	column Category
+		dataType: string
+		lineageTag: f1b88b44-207f-45f4-ae16-d8a52dac42b4
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 68d82945-e2e1-4a9e-9681-5718e3118c89
+		summarizeBy: none
+		sourceColumn: Year
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+	column Amount
+		dataType: int64
+		formatString: 0
+		lineageTag: c1721007-28f0-4c93-b2be-cc0782abb6e0
+		summarizeBy: sum
+		sourceColumn: Amount
+
+		annotation SummarizationSetBy = Automatic
+
+	partition SimplifiedP&L = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\madhu\Videos\Costco Data\costco_data.xlsx"), null, true),
+				    #"SimplifiedP&L_Sheet" = Source{[Item="SimplifiedP&L",Kind="Sheet"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(#"SimplifiedP&L_Sheet",{{"Column1", type text}, {"Column2", Int64.Type}, {"Column3", Int64.Type}, {"Column4", Int64.Type}, {"Column5", Int64.Type}, {"Column6", Int64.Type}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"Column1", "Category"}}),
+				    #"Removed Top Rows" = Table.Skip(#"Renamed Columns",1),
+				    #"Renamed Columns1" = Table.RenameColumns(#"Removed Top Rows",{{"Column2", "2024"}, {"Column3", "2023"}, {"Column4", "2022"}, {"Column5", "2021"}, {"Column6", "2020"}}),
+				    #"Unpivoted Columns" = Table.UnpivotOtherColumns(#"Renamed Columns1", {"Category"}, "Attribute", "Value"),
+				    #"Renamed Columns2" = Table.RenameColumns(#"Unpivoted Columns",{{"Attribute", "Year"}, {"Value", "Amount"}})
+				in
+				    #"Renamed Columns2"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

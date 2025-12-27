@@ -1,0 +1,69 @@
+table CashFlowStatement
+	lineageTag: b7b5a076-3e77-4622-9cf6-fabeb03c596f
+
+	column Category
+		dataType: string
+		lineageTag: 2136c504-6651-426e-9a57-a2d9f9129bee
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column2
+		dataType: int64
+		formatString: 0
+		lineageTag: 65a90147-32e4-4347-815f-7a399628eff4
+		summarizeBy: none
+		sourceColumn: Column2
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column3
+		dataType: int64
+		formatString: 0
+		lineageTag: 9fbd6a5b-ad31-4733-a16e-5298487a1a4e
+		summarizeBy: none
+		sourceColumn: Column3
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column4
+		dataType: int64
+		formatString: 0
+		lineageTag: 69e21724-c3c5-4b15-aa14-32a2d7555bd4
+		summarizeBy: none
+		sourceColumn: Column4
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column5
+		dataType: int64
+		formatString: 0
+		lineageTag: d2acf2d4-2c86-414b-a73a-b82d8e712e0a
+		summarizeBy: none
+		sourceColumn: Column5
+
+		annotation SummarizationSetBy = Automatic
+
+	column Column6
+		dataType: int64
+		formatString: 0
+		lineageTag: 63bcc449-b1dd-46f9-bafd-33cc12e008a6
+		summarizeBy: none
+		sourceColumn: Column6
+
+		annotation SummarizationSetBy = Automatic
+
+	partition CashFlowStatement = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\madhu\Videos\Costco Data\costco_data.xlsx"), null, true),
+				    CashFlowStatement_Sheet = Source{[Item="CashFlowStatement",Kind="Sheet"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(CashFlowStatement_Sheet,{{"Column1", type text}, {"Column2", Int64.Type}, {"Column3", Int64.Type}, {"Column4", Int64.Type}, {"Column5", Int64.Type}, {"Column6", Int64.Type}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"Column1", "Category"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_ResultType = Table
+

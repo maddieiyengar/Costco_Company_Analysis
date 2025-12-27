@@ -1,0 +1,53 @@
+table YoY
+	lineageTag: c1aefffa-74ca-4dfd-8035-3f177229476f
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: ec1c7bd7-dc22-4764-88cc-8c94d60aabb1
+		summarizeBy: none
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Previous Year Revenue'
+		dataType: int64
+		formatString: 0
+		lineageTag: f6bcfeb3-4d69-4e87-95e2-3759da145457
+		summarizeBy: none
+		sourceColumn: Previous Year Revenue
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Current Revenue'
+		dataType: int64
+		formatString: 0
+		lineageTag: 7feda203-700b-444b-8bdd-1c6ad4b04497
+		summarizeBy: none
+		sourceColumn: Current Revenue
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'YoY Growth'
+		dataType: double
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: c7f9fc0c-ef1d-4b3f-9fae-9a2a2e0c7852
+		summarizeBy: none
+		sourceColumn: YoY Growth
+
+		annotation SummarizationSetBy = Automatic
+
+	partition YoY = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\madhu\Videos\Costco Data\YoY Revenue Growth.xlsx"), null, true),
+				    Table1_Table = Source{[Item="Table1",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Table1_Table,{{"Year", Int64.Type}, {"Previous Year Revenue", Int64.Type}, {"Current Revenue", Int64.Type}, {"YoY Growth", type number}})
+				in
+				    #"Changed Type"
+
+	changedProperty = Name
+
+	annotation PBI_ResultType = Table
+

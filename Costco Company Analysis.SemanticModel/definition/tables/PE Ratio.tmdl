@@ -1,0 +1,35 @@
+table 'PE Ratio'
+	lineageTag: b633cee0-d44d-49a8-b59c-2b553b0b96e1
+
+	column Company
+		dataType: string
+		lineageTag: 503d4c0f-f691-4793-8d6f-bb63dd647aa2
+		summarizeBy: none
+		sourceColumn: Company
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'P/E Ratio'
+		dataType: double
+		lineageTag: b62dc924-18e6-4e40-bf1d-2f6d4e58694b
+		summarizeBy: sum
+		sourceColumn: P/E Ratio
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition 'PE Ratio' = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\madhu\Videos\Costco Data\ratios.xlsx"), null, true),
+				    Table1_Table = Source{[Item="Table1",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Table1_Table,{{"Company", type text}, {"P/E Ratio", type number}})
+				in
+				    #"Changed Type"
+
+	changedProperty = Name
+
+	annotation PBI_ResultType = Exception
+

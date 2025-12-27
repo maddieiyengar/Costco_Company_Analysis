@@ -1,0 +1,82 @@
+table StockPrice
+	lineageTag: 3c89bcee-eb29-4f69-9a2e-8311b9d6e91e
+
+	column Date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 92fdceed-3493-4d46-a71b-4f7dac674ac7
+		summarizeBy: none
+		sourceColumn: Date
+
+		variation Variation
+			isDefault
+			relationship: 330cf87c-9411-4324-a8cc-dde3fa3e7d7c
+			defaultHierarchy: LocalDateTable_32bb057d-3977-4c26-a1b6-bb636b4e5b1e.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column Open
+		dataType: double
+		lineageTag: 80b0fcbb-9112-48fd-8fb2-0a19ece56a52
+		summarizeBy: sum
+		sourceColumn: Open
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column High
+		dataType: double
+		lineageTag: ff5614b1-abf5-45ba-ad1e-f083cdfbb921
+		summarizeBy: sum
+		sourceColumn: High
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Low
+		dataType: double
+		lineageTag: a41c6842-7cae-4c65-b312-d851bdb898d5
+		summarizeBy: sum
+		sourceColumn: Low
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Close
+		dataType: double
+		lineageTag: 8cdc4f52-2beb-4811-a356-18d1d5a6307e
+		summarizeBy: sum
+		sourceColumn: Close
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Volume
+		dataType: double
+		lineageTag: 570f01c8-232f-47f8-92ad-52f9e495d5d3
+		summarizeBy: sum
+		sourceColumn: Volume
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition StockPrice = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\madhu\Videos\Costco Data\costco_data.xlsx"), null, true),
+				    StockPrice_Sheet = Source{[Item="StockPrice",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(StockPrice_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"Date", type date}, {"Open", type number}, {"High", type number}, {"Low", type number}, {"Close", type number}, {"Volume", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

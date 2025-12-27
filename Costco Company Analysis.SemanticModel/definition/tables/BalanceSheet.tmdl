@@ -1,0 +1,44 @@
+table BalanceSheet
+	lineageTag: 977804f1-98c7-4c61-a3c3-f35772edb5a8
+
+	column Column1
+		dataType: string
+		lineageTag: d7cc2788-4b4d-40a0-b77f-061beb25c70b
+		summarizeBy: none
+		sourceColumn: Column1
+
+		annotation SummarizationSetBy = Automatic
+
+	column Year
+		dataType: string
+		lineageTag: 0c24ee95-b70c-4599-b2d8-f78eace4ab38
+		summarizeBy: none
+		sourceColumn: Year
+
+		annotation SummarizationSetBy = Automatic
+
+	column Value
+		dataType: int64
+		formatString: 0
+		lineageTag: 287fbeaf-0189-4950-9b39-ad2da6638310
+		summarizeBy: sum
+		sourceColumn: Value
+
+		annotation SummarizationSetBy = Automatic
+
+	partition BalanceSheet = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\madhu\Videos\Costco Data\costco_data.xlsx"), null, true),
+				    BalanceSheet_Sheet = Source{[Item="BalanceSheet",Kind="Sheet"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(BalanceSheet_Sheet,{{"Column1", type text}, {"Column2", Int64.Type}, {"Column3", Int64.Type}, {"Column4", Int64.Type}, {"Column5", Int64.Type}, {"Column6", Int64.Type}}),
+				    #"Unpivoted Other Columns" = Table.UnpivotOtherColumns(#"Changed Type", {"Column1"}, "Attribute", "Value"),
+				    #"Renamed Columns" = Table.RenameColumns(#"Unpivoted Other Columns",{{"Attribute", "Year"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navigation
+

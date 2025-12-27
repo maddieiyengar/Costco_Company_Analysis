@@ -1,0 +1,38 @@
+model Model
+	culture: en-US
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-US
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation PBI_QueryOrder = ["BalanceSheet","CashFlowStatement","SimplifiedP&L","Canada_Sales","Mexico_Sales","US_Sales","StockPrice","SPY","YoY","Inventory_Turnover","Membership_composition","Renewal_Data","PE Ratio","DSI","ROE"]
+
+annotation __PBI_TimeIntelligenceEnabled = 1
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table BalanceSheet
+ref table CashFlowStatement
+ref table SimplifiedP&L
+ref table Canada_Sales
+ref table DateTableTemplate_4eca9249-e797-4c59-b9d2-705b7addb7fe
+ref table LocalDateTable_ce751bcb-f14f-486f-ab90-abe3294d139d
+ref table Mexico_Sales
+ref table LocalDateTable_5cceaeeb-67e0-45eb-a98e-78103742a581
+ref table US_Sales
+ref table LocalDateTable_25408b26-6bb6-4a74-8410-8a29863f93cb
+ref table StockPrice
+ref table LocalDateTable_32bb057d-3977-4c26-a1b6-bb636b4e5b1e
+ref table SPY
+ref table 'Net Income Table'
+ref table YoY
+ref table Inventory_Turnover
+ref table Membership_composition
+ref table Renewal_Data
+ref table 'PE Ratio'
+ref table DSI
+ref table ROE
+
+ref cultureInfo en-US
+

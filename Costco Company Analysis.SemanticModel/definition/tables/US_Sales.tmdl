@@ -1,0 +1,119 @@
+table US_Sales
+	lineageTag: 98b224a7-cc43-45ef-b8fc-1d3cc21a2a17
+
+	measure 'Total US Sales' = sum(US_Sales[total_amt])
+		lineageTag: 72a9f48c-5139-49ee-9c56-188b35a1bf31
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column product_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 56b42b0e-4756-4036-88f8-4949284a4410
+		summarizeBy: sum
+		sourceColumn: product_id
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column purchase_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: b07bfcb9-9000-4f3b-90d8-bec8daf8dbf4
+		summarizeBy: none
+		sourceColumn: purchase_date
+
+		variation Variation
+			isDefault
+			relationship: a8c240f9-1bf4-4cd3-a082-e1b661409e08
+			defaultHierarchy: LocalDateTable_25408b26-6bb6-4a74-8410-8a29863f93cb.'Date Hierarchy'
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column purchase_time
+		dataType: dateTime
+		formatString: Long Time
+		lineageTag: ddb2560e-68f2-4178-a777-23446bb89b45
+		summarizeBy: none
+		sourceColumn: purchase_time
+
+		changedProperty = IsHidden
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Time
+
+	column country_code
+		dataType: string
+		lineageTag: 3e5c60d9-83d2-4bde-abbc-cde9b648c07e
+		summarizeBy: none
+		sourceColumn: country_code
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column price_in_usd
+		dataType: double
+		lineageTag: 15d3f828-7d92-4754-b6a9-0c7a0f3a6d91
+		summarizeBy: sum
+		sourceColumn: price_in_usd
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column units_sold
+		dataType: int64
+		formatString: 0
+		lineageTag: 3bcbd2c4-fb32-4360-8f28-70a9fa30a34c
+		summarizeBy: sum
+		sourceColumn: units_sold
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column currency
+		dataType: string
+		lineageTag: b34028af-8437-49af-a652-1edaab6e25b9
+		summarizeBy: none
+		sourceColumn: currency
+
+		changedProperty = IsHidden
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_amt = US_Sales[price_in_usd]*US_Sales[units_sold]
+		lineageTag: 1e13d269-2a5f-4721-9a7f-a5065efd0e95
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition US_Sales = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\madhu\Videos\Costco Data\costco_data.xlsx"), null, true),
+				    US_Sales_Sheet = Source{[Item="US_Sales",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(US_Sales_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"product_id", Int64.Type}, {"purchase_date", type date}, {"purchase_time", type datetime}, {"country_code", type text}, {"price_in_usd", type number}, {"units_sold", Int64.Type}, {"currency", type text}, {"Column8", type any}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"Column8"})
+				in
+				    #"Removed Columns"
+
+	changedProperty = IsHidden
+
+	annotation PBI_ResultType = Table
+

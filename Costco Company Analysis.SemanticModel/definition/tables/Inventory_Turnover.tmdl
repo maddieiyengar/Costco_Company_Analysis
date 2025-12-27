@@ -1,0 +1,54 @@
+table Inventory_Turnover
+	lineageTag: 1b348207-6bcd-4a7b-b8f0-a89d37ee20db
+
+	column Period
+		dataType: int64
+		formatString: 0
+		lineageTag: c14d3580-9fb8-4516-847d-a7fc61a0e9b7
+		summarizeBy: sum
+		sourceColumn: Period
+
+		annotation SummarizationSetBy = Automatic
+
+	column Costco
+		dataType: double
+		lineageTag: 62c969fb-1bf4-49e6-bf10-b30f717213e1
+		summarizeBy: sum
+		sourceColumn: Costco
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Walmart
+		dataType: double
+		lineageTag: 3b7552a4-a812-4038-8df7-3d5d295e3e46
+		summarizeBy: sum
+		sourceColumn: Walmart
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Target
+		dataType: double
+		lineageTag: 04f06bdf-1038-4295-a904-710ebc7598b4
+		summarizeBy: sum
+		sourceColumn: Target
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition Inventory_Turnover = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\madhu\Videos\Costco Data\Inventory.xlsx"), null, true),
+				    Inventory_Turnover_Table = Source{[Item="Inventory_Turnover",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Inventory_Turnover_Table,{{"Period", Int64.Type}, {"Costco", type number}, {"Walmart", type number}, {"Target", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+

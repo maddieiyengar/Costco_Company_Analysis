@@ -1,0 +1,99 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.4.0/schema.json",
+  "name": "dca7e308e11d922faae5",
+  "position": {
+    "x": 8.5598280391688562,
+    "y": 0,
+    "z": 0,
+    "height": 216.44136613326964,
+    "width": 315.49080487222358,
+    "tabOrder": 0
+  },
+  "visual": {
+    "visualType": "pieChart",
+    "query": {
+      "queryState": {
+        "Y": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Canada_Sales"
+                    }
+                  },
+                  "Property": "Total Canada Sales"
+                }
+              },
+              "queryRef": "Canada_Sales.total_can",
+              "nativeQueryRef": "Total Canada Sales"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Mexico_Sales"
+                    }
+                  },
+                  "Property": "Total Mexico Sales"
+                }
+              },
+              "queryRef": "Mexico_Sales.total_mex",
+              "nativeQueryRef": "Total Mexico Sales"
+            },
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "US_Sales"
+                    }
+                  },
+                  "Property": "Total US Sales"
+                }
+              },
+              "queryRef": "US_Sales.total_us",
+              "nativeQueryRef": "Total US Sales"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Canada_Sales"
+                  }
+                },
+                "Property": "Total Canada Sales"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Sales by Country'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

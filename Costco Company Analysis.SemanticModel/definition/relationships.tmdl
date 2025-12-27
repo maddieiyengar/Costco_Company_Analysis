@@ -1,0 +1,46 @@
+relationship 35806939-f416-4a67-9def-0d3c46503dcc
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Canada_Sales.purchase_date
+	toColumn: LocalDateTable_ce751bcb-f14f-486f-ab90-abe3294d139d.Date
+
+relationship 5d9cc272-4208-4e9a-bd50-ffba4c1cbba8
+	joinOnDateBehavior: datePartOnly
+	fromColumn: Mexico_Sales.purchase_date
+	toColumn: LocalDateTable_5cceaeeb-67e0-45eb-a98e-78103742a581.Date
+
+relationship a8c240f9-1bf4-4cd3-a082-e1b661409e08
+	joinOnDateBehavior: datePartOnly
+	fromColumn: US_Sales.purchase_date
+	toColumn: LocalDateTable_25408b26-6bb6-4a74-8410-8a29863f93cb.Date
+
+relationship 330cf87c-9411-4324-a8cc-dde3fa3e7d7c
+	joinOnDateBehavior: datePartOnly
+	fromColumn: StockPrice.Date
+	toColumn: LocalDateTable_32bb057d-3977-4c26-a1b6-bb636b4e5b1e.Date
+
+relationship AutoDetected_615054bf-f1a2-466e-908c-5e753908c5cd
+	fromColumn: BalanceSheet.Column1
+	toColumn: CashFlowStatement.Category
+
+relationship 9b5d0024-d1c4-7da0-ca81-e826754a2ee5
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: SPY.Date
+	toColumn: StockPrice.Date
+
+relationship AutoDetected_35f54e4d-9de9-47b9-9250-8b4e58950cf2
+	fromColumn: SimplifiedP&L.Year
+	toColumn: YoY.Year
+
+relationship AutoDetected_fbbb616f-4ab1-425c-a28a-7639afe3f0e8
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: DSI.Company
+	toColumn: 'PE Ratio'.Company
+
+relationship AutoDetected_ac584359-d8c6-4278-bef2-207e6354c7df
+	crossFilteringBehavior: bothDirections
+	fromCardinality: one
+	fromColumn: ROE.Company
+	toColumn: 'PE Ratio'.Company
+

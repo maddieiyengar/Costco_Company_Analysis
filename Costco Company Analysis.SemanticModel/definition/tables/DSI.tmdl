@@ -1,0 +1,35 @@
+table DSI
+	lineageTag: 182dddfa-ec09-4328-b4df-07a5caf8f02b
+
+	column Company
+		dataType: string
+		lineageTag: 832f6032-9c01-4a16-ae2f-5528be23069a
+		summarizeBy: none
+		sourceColumn: Company
+
+		annotation SummarizationSetBy = Automatic
+
+	column DSI
+		dataType: double
+		lineageTag: 66717f0a-0df4-4112-85f8-13ad7fa087b2
+		summarizeBy: sum
+		sourceColumn: DSI
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition DSI = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\madhu\Videos\Costco Data\ratios.xlsx"), null, true),
+				    Table2_Table = Source{[Item="Table2",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Table2_Table,{{"Company", type text}, {"DSI", type number}})
+				in
+				    #"Changed Type"
+
+	changedProperty = Name
+
+	annotation PBI_ResultType = Exception
+

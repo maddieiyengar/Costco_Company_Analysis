@@ -1,0 +1,109 @@
+table Canada_Sales
+	lineageTag: 3930b6ad-a600-4ac7-b1d5-93631b078e51
+
+	measure 'Total Canada Sales' = sum(Canada_Sales[total_amt])
+		lineageTag: d5e46aee-6bab-4db8-8fb1-641ee74dbfdb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column product_id
+		dataType: int64
+		formatString: 0
+		lineageTag: f122534f-1480-4aac-b995-9b1bf6cd85ef
+		summarizeBy: sum
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column purchase_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 55aec3c2-b66a-4ed7-a5a3-3f48d83d8f0b
+		summarizeBy: none
+		sourceColumn: purchase_date
+
+		variation Variation
+			isDefault
+			relationship: 35806939-f416-4a67-9def-0d3c46503dcc
+			defaultHierarchy: LocalDateTable_ce751bcb-f14f-486f-ab90-abe3294d139d.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column purchase_time
+		dataType: dateTime
+		formatString: Long Time
+		lineageTag: 613984d8-937c-4fdf-a8dc-fd9597d5a776
+		summarizeBy: none
+		sourceColumn: purchase_time
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Time
+
+	column country_code
+		dataType: string
+		lineageTag: acb4271b-79e6-4e08-b466-e9dd0f7912f8
+		summarizeBy: none
+		sourceColumn: country_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column price_per_unit
+		dataType: double
+		lineageTag: b79cceb9-ceb5-452a-b6a0-7f6dbc45db0a
+		summarizeBy: sum
+		sourceColumn: price_per_unit
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column units_sold
+		dataType: int64
+		formatString: 0
+		lineageTag: 48b807ac-6808-488a-bb22-3255e78f5976
+		summarizeBy: sum
+		sourceColumn: units_sold
+
+		annotation SummarizationSetBy = Automatic
+
+	column currency
+		dataType: string
+		lineageTag: 151a8504-f8fa-4ff5-89d5-a041b1161937
+		summarizeBy: none
+		sourceColumn: currency
+
+		annotation SummarizationSetBy = Automatic
+
+	column price_usd = Canada_Sales[price_per_unit]*0.71
+		formatString: 0.00
+		lineageTag: 9ef07cd1-676b-4b9b-a2d5-2cc3c369f1ce
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_amt = Canada_Sales[units_sold]*Canada_Sales[price_usd]
+		formatString: 0.00
+		lineageTag: 39d02e72-1431-4f15-9799-de9d4052ee2f
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Canada_Sales = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\madhu\Videos\Costco Data\costco_data.xlsx"), null, true),
+				    Canada_Sales_Sheet = Source{[Item="Canada_Sales",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Canada_Sales_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"product_id", Int64.Type}, {"purchase_date", type date}, {"purchase_time", type datetime}, {"country_code", type text}, {"price_per_unit", type number}, {"units_sold", Int64.Type}, {"currency", type text}, {"usd_price", type number}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"usd_price"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

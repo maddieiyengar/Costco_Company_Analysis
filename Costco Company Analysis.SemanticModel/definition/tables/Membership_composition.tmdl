@@ -1,0 +1,53 @@
+table Membership_composition
+	lineageTag: 0024942a-53a9-458b-80a7-b3e4076ec6c1
+
+	column 'Membership Type'
+		dataType: string
+		lineageTag: f61d7524-b2c5-43c7-ac22-49e1615e4b6b
+		summarizeBy: none
+		sourceColumn: Membership Type
+
+		annotation SummarizationSetBy = Automatic
+
+	column '2024 (FY)'
+		dataType: double
+		lineageTag: c56b202d-9308-4f0f-9825-6b67717fac00
+		summarizeBy: sum
+		sourceColumn: 2024 (FY)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column '2023 (FY)'
+		dataType: double
+		lineageTag: ff1695bd-c132-42f6-a5c9-b0c17fff0d77
+		summarizeBy: sum
+		sourceColumn: 2023 (FY)
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Change
+		dataType: double
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 2874575d-ec55-4902-b84b-814b3684b735
+		summarizeBy: sum
+		sourceColumn: Change
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Membership_composition = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\madhu\Videos\Costco Data\membership metrics.xlsx"), null, true),
+				    Membership_composition_Table = Source{[Item="Membership_composition",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Membership_composition_Table,{{"Metric", type text}, {"2024 (FY)", type number}, {"2023 (FY)", type number}, {"Change", type number}}),
+				    #"Renamed Columns" = Table.RenameColumns(#"Changed Type",{{"Metric", "Membership Type"}})
+				in
+				    #"Renamed Columns"
+
+	annotation PBI_ResultType = Exception
+

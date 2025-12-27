@@ -1,0 +1,225 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 793.73644572871854,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 334,
+            "y": 1774.9058685302734
+          },
+          "nodeIndex": "BalanceSheet",
+          "nodeLineageTag": "977804f1-98c7-4c61-a3c3-f35772edb5a8",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 568,
+            "y": 1800.9058685302734
+          },
+          "nodeIndex": "Canada_Sales",
+          "nodeLineageTag": "3930b6ad-a600-4ac7-b1d5-93631b078e51",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 50,
+            "y": 1774.9058685302734
+          },
+          "nodeIndex": "CashFlowStatement",
+          "nodeLineageTag": "b7b5a076-3e77-4622-9cf6-fabeb03c596f",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 852,
+            "y": 1800.9058685302734
+          },
+          "nodeIndex": "Mexico_Sales",
+          "nodeLineageTag": "e41a8e16-5f22-4c73-9b15-31d90c84f0f5",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1136,
+            "y": 1824.9058685302734
+          },
+          "nodeIndex": "SimplifiedP&L",
+          "nodeLineageTag": "f4686250-6e35-4a35-9a97-b77b690a2eee",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1420,
+            "y": 1824.9058685302734
+          },
+          "nodeIndex": "SPY",
+          "nodeLineageTag": "19435e4b-8c59-4cde-bc28-c0d106c1cba1",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1704,
+            "y": 1824.9058685302734
+          },
+          "nodeIndex": "StockPrice",
+          "nodeLineageTag": "3c89bcee-eb29-4f69-9a2e-8311b9d6e91e",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1988,
+            "y": 1800.9058685302734
+          },
+          "nodeIndex": "US_Sales",
+          "nodeLineageTag": "98b224a7-cc43-45ef-b8fc-1d3cc21a2a17",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2222,
+            "y": 1785.0933685302734
+          },
+          "nodeIndex": "Net Income Table",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2456,
+            "y": 1777.6871185302734
+          },
+          "nodeIndex": "YoY",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2690,
+            "y": 1704.9136810302734
+          },
+          "nodeIndex": "Inventory_Turnover",
+          "nodeLineageTag": "1b348207-6bcd-4a7b-b8f0-a89d37ee20db",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 3442,
+            "y": 1563.1675872802734
+          },
+          "nodeIndex": "Membership_composition",
+          "nodeLineageTag": "0024942a-53a9-458b-80a7-b3e4076ec6c1",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 3676,
+            "y": 1491.7325286865234
+          },
+          "nodeIndex": "Renewal_Data",
+          "nodeLineageTag": "85a174a1-e1c2-4532-a885-a9f3c020a132",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 4244.18475118063,
+            "y": 693.302461912493
+          },
+          "nodeIndex": "PE Ratio",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 3960,
+            "y": 674.36757108983636
+          },
+          "nodeIndex": "ROE",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 4528.36163941536,
+            "y": 706.62745454492915
+          },
+          "nodeIndex": "DSI",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 70.95554390096892,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

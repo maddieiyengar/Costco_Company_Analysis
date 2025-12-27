@@ -1,0 +1,109 @@
+table Mexico_Sales
+	lineageTag: e41a8e16-5f22-4c73-9b15-31d90c84f0f5
+
+	measure 'Total Mexico Sales' = sum(Mexico_Sales[total_amt])
+		lineageTag: 75d5bbbc-927d-4df6-97a2-b1b920890fde
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column product_id
+		dataType: int64
+		formatString: 0
+		lineageTag: 27ed0932-dfaf-4fb2-acdb-09dacad7ff87
+		summarizeBy: sum
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column purchase_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 56bba1f8-5374-4219-a695-ee86f1e99574
+		summarizeBy: none
+		sourceColumn: purchase_date
+
+		variation Variation
+			isDefault
+			relationship: 5d9cc272-4208-4e9a-bd50-ffba4c1cbba8
+			defaultHierarchy: LocalDateTable_5cceaeeb-67e0-45eb-a98e-78103742a581.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column purchase_time
+		dataType: dateTime
+		formatString: Long Time
+		lineageTag: 54a3fc46-5d5a-465e-a101-82d065fa8183
+		summarizeBy: none
+		sourceColumn: purchase_time
+
+		changedProperty = DataType
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Time
+
+	column country_code
+		dataType: string
+		lineageTag: 0d8f09ba-3b91-4379-a26b-496ad9d35ee1
+		summarizeBy: none
+		sourceColumn: country_code
+
+		annotation SummarizationSetBy = Automatic
+
+	column price_per_unit
+		dataType: double
+		lineageTag: 02e344cd-68a0-49b2-8faf-5bccd8596db9
+		summarizeBy: sum
+		sourceColumn: price_per_unit
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column units_sold
+		dataType: int64
+		formatString: 0
+		lineageTag: b0304a33-c17a-4d1d-8859-6b82678b5305
+		summarizeBy: sum
+		sourceColumn: units_sold
+
+		annotation SummarizationSetBy = Automatic
+
+	column currency
+		dataType: string
+		lineageTag: fc449a1f-228c-4429-9864-f796c487ec79
+		summarizeBy: none
+		sourceColumn: currency
+
+		annotation SummarizationSetBy = Automatic
+
+	column price_usd = 0.059*Mexico_Sales[price_per_unit]
+		formatString: 0.00
+		lineageTag: 9e195b63-f5ac-40ed-8d41-aae30a515463
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	column total_amt = Mexico_Sales[price_usd]*Mexico_Sales[units_sold]
+		formatString: 0.00
+		lineageTag: da6fb351-0e06-493c-847c-ea3ea7218314
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Mexico_Sales = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\madhu\Videos\Costco Data\costco_data.xlsx"), null, true),
+				    Mexico_Sales_Sheet = Source{[Item="Mexico_Sales",Kind="Sheet"]}[Data],
+				    #"Promoted Headers" = Table.PromoteHeaders(Mexico_Sales_Sheet, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"product_id", Int64.Type}, {"purchase_date", type date}, {"purchase_time", type datetime}, {"country_code", type text}, {"price_per_unit", type number}, {"units_sold", Int64.Type}, {"currency", type text}, {"price_usd", type number}}),
+				    #"Removed Columns" = Table.RemoveColumns(#"Changed Type",{"price_usd"})
+				in
+				    #"Removed Columns"
+
+	annotation PBI_ResultType = Table
+

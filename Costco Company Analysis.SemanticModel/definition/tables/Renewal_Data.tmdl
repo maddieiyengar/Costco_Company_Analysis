@@ -1,0 +1,48 @@
+table Renewal_Data
+	lineageTag: 85a174a1-e1c2-4532-a885-a9f3c020a132
+
+	column 'Executive Members % of Paid Base'
+		dataType: string
+		lineageTag: f9bbccc8-be43-4506-a3a5-711f8c4cd1b9
+		summarizeBy: none
+		sourceColumn: Executive Members % of Paid Base
+
+		annotation SummarizationSetBy = Automatic
+
+	column '~46.5%'
+		dataType: double
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: cc7a0ff9-e289-4834-8d63-50d1211b0cf3
+		summarizeBy: sum
+		sourceColumn: ~46.5%
+
+		annotation SummarizationSetBy = Automatic
+
+	column (implied)
+		dataType: string
+		lineageTag: 6cc3f932-3b37-4ed0-b257-8a79750fcde3
+		summarizeBy: none
+		sourceColumn: (implied)
+
+		annotation SummarizationSetBy = Automatic
+
+	column N/A
+		dataType: string
+		lineageTag: 420c0f77-c7a3-486f-b535-fece326c34d8
+		summarizeBy: none
+		sourceColumn: N/A
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Renewal_Data = m
+		mode: import
+		source =
+				let
+				    Source = Excel.Workbook(File.Contents("C:\Users\madhu\Videos\Costco Data\membership metrics.xlsx"), null, true),
+				    Renewal_Data_Table = Source{[Item="Renewal_Data",Kind="Table"]}[Data],
+				    #"Changed Type" = Table.TransformColumnTypes(Renewal_Data_Table,{{"Executive Members % of Paid Base", type text}, {"~46.5%", type number}, {"(implied)", type any}, {"N/A", type any}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_ResultType = Table
+
